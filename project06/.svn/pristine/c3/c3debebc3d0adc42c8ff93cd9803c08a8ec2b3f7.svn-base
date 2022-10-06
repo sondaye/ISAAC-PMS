@@ -1,0 +1,75 @@
+package pm.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import pm.service.MemberService;
+import pm.vo.Member;
+
+@Controller
+public class MemberController {
+	@Autowired(required=false)
+	private MemberService service;
+	// http://localhost:7080/project06/memberlist.do
+	// 조회
+	@RequestMapping("memberlist.do")
+	public String memberlist(Member sch, Model d) {
+		
+		d.addAttribute("mlist", service.memberlist(sch));
+		return "WEB-INF\\views\\m01_memberlist.jsp";
+	}
+	// http://localhost:7080/project06/memberDetail.do
+	// 상세 페이지
+	@RequestMapping("memberDetail.do")
+	public String memberDetail(@RequestParam("no")int no, Model d) {
+		d.addAttribute("member",service.getMemberDetail(no));
+		
+		return "WEB-INF\\views\\m02_memberDetail.jsp";
+	}
+	// 수정
+	@RequestMapping("updateMember.do")
+	public String updateMember(Member upt, Model d) {
+		d.addAttribute("member",service.updateMember(upt));
+		d.addAttribute("proc","upt");
+		return "WEB-INF\\views\\m02_memberDetail.jsp";
+	}
+	// 삭제
+	@RequestMapping("deleteMember.do")
+	public String deleteMember(@RequestParam("no")int no, Model d) {
+		service.deleteMember(no);
+		d.addAttribute("proc","del");
+		return "WEB-INF\\views\\m01_memberlist.jsp";
+	}
+	
+	// 등록
+	@RequestMapping("insertMemberForm.do")
+	public String insertMemberForm() {
+		return "WEB-INF\\views\\m03_addMember.jsp";
+	}
+	@RequestMapping("insertMember.do")
+	public String insertMember(Member ins, Model d) {
+		service.insertMember(ins);
+		d.addAttribute("isInsert","Y");
+		return "WEB-INF\\views\\m03_addMember.jsp";
+	}
+	// 그룹 페이지
+	// http://localhost:7080/project06/orgGroup.do
+	@RequestMapping("orgGroup.do")
+	public String orgGroup(Member gro, Model d) {
+		d.addAttribute("orgGrouplist", service.orgGroup(gro));
+		return "WEB-INF\\views\\m04_orgGroup.jsp";
+	}
+	
+	// 부서 인원수 및 부서 정보 변경
+	// http://localhost:7080/project06/groupList.do
+	@RequestMapping("groupList.do")
+	public String groupList(Member dept, Model d) {
+		d.addAttribute("grouplist",service.groupList(dept));
+		return "WEB-INF\\views\\m05_groupList.jsp";
+	}
+	
+	
+}

@@ -1,0 +1,13 @@
+SELECT * FROM project;
+
+CREATE TABLE priority(
+	pno NUMBER,
+	pname varchar2(100));
+	
+INSERT INTO priority values(0,'없음');
+INSERT INTO priority values(1,'긴급');
+INSERT INTO priority values(2,'높음');
+INSERT INTO priority values(3,'보통');
+INSERT INTO priority values(4,'낮음');
+
+SELECT * FROM PRIORITY;

@@ -1,0 +1,26 @@
+package pm.dao;
+
+import java.util.List;
+
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Repository;
+
+import pm.vo.Member;
+
+
+@Repository
+public interface LoginDao {
+public List<Member> getLoginList(Member sch); //로그인
+	
+	public void LoginInsert(Member ins); //회원입력(쓸지안쓸지 고민중)
+	
+	public Member ck(Member m);	//아이디비교
+
+	
+	void createUser(User user);
+	User getUserById(String id);
+	List<User> getUserAll = null;
+	void updateUser(User user);
+	void removeUserById(String id);
+}
+

@@ -1,0 +1,60 @@
+package pm.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Service;
+
+import pm.dao.LoginDao;
+import pm.vo.Member;
+
+
+
+@Service
+public class LoginService {
+	@Autowired(required=false) 
+	private  LoginDao dao;
+	
+	public List<Member> getLoginList(Member sch){
+		return dao.getLoginList(sch);
+	}
+	
+	public void LoginInsert(Member ins) {
+		dao.LoginInsert(ins);
+	}
+	
+	public Member ck(Member sch) {
+		
+		return dao.ck(sch);
+	}
+	
+	public User getUserById(String id) {
+		User user = dao.getUserById(id);
+		return user; 
+}
+	
+public int checkId(String id) {
+    User user = dao.getUserById(id);
+    if (user == null) {
+    	return 0;
+    }
+    return 1;	
+}
+
+public User loginCheck(Member.LoginInfo userdto) {
+	User user = dao.getUserById(userdto.getId());
+	if(userdto.getPass().equals(user.getPassword())) {
+		return user;
+	}
+	else {
+		return null;
+	}
+}
+
+
+
+}
+
+	
+

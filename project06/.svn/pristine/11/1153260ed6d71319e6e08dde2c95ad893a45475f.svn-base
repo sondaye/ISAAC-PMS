@@ -1,0 +1,46 @@
+package pm.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pm.dao.MemberDao;
+import pm.vo.Member;
+
+@Service
+public class MemberService {
+	@Autowired(required = false)
+	private MemberDao dao;
+	public List<Member> memberlist(Member sch){
+		return dao.memberlist(sch);
+	}
+	public Member memberlist2(Member sch){
+		return dao.memberlist2(sch);
+	}
+	public Member getMemberDetail(int no) {
+		return dao.getMemberDetail(no);
+	}
+	public Member updateMember(Member upt) {
+		dao.updateMember(upt);
+		return dao.getMemberDetail(upt.getNo());
+	}
+	
+	public void deleteMember(int no) {
+		dao.deleteMember(no);
+	}
+	
+	public void insertMember(Member ins) {
+		dao.insertMember(ins);
+	}
+	public List<Member> orgGroup(Member gro){
+		return dao.orgGroup(gro);
+	}
+	
+	public List<Member> groupList(Member dept){
+		return dao.groupList(dept);
+	}
+
+
+
+}

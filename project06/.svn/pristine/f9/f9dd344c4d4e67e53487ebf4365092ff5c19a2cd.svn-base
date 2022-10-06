@@ -1,0 +1,33 @@
+package pm.dao;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import pm.vo.Member;
+
+// pm.dao.MemberDao
+@Repository
+public interface MemberDao {
+	public List<Member> memberlist(Member sch); // 멤버 리스트 및 검색
+	
+	public Member memberlist2(Member sch); // 멤버 리스트 및 검색
+	
+	public Member getMemberDetail(int no); // 상세
+	
+	public void updateMember(Member upt); // 수정
+	
+	public void deleteMember(int no); // 삭제
+	
+	public void insertMember(Member ins); // 등록
+	
+	public List<Member> orgGroup(Member gro); // 그룹 정보
+	
+	public List<Member> groupList(Member dept); // 부서 인원수
+
+	
+	
+	
+	
+
+}

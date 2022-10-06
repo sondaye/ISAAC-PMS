@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pm.dao.DashboardDao">
+<select id="getManpower" resultType="int">
+SELECT count(*) 
+FROM (
+	SELECT DISTINCT m.NO, m.name 
+	FROM member06 m, project p 
+	WHERE m.NO = p.OWNER_ID
+)
+</select>
+
+</mapper>

@@ -1,0 +1,27 @@
+package pm.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import pm.service.MailSenderService2;
+import pm.vo.Mail2;
+
+@Controller
+public class PasswordController {
+	@Autowired(required=false)
+	private MailSenderService2 service;
+	// http://localhost:7080/project06/mailForm1.do
+	@GetMapping("mailForm1.do")
+	public String mailForm() {
+		return "WEB-INF\\views\\password.jsp";
+	}
+	@PostMapping("mailSender1.do")
+	public String mailSender(Mail2 mail, Model d) {
+		d.addAttribute("msg",service.sendMail(mail));
+		return "WEB-INF\\views\\password.jsp";
+	}
+	
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="pm.dao.LoginDao">
+  
+	<select id="getLoginList" parameterType="member" resultType="member">
+		select * from MEMBER06
+	</select>
+	
+	<select id="ck" resultType="member" parameterType="member">
+		select * from MEMBER06
+		WHERE id=#{id}
+		and pass=#{pass}
+	</select>
+	
+	
+	<insert id="LoginInsert" parameterType="member">
+		insert into MEMBER06
+				values(NO_seq2.nextval,#{id},#{pass},#{cpass},#{name},#{mail},'0',#{tel})
+  	</insert>
+  </mapper>

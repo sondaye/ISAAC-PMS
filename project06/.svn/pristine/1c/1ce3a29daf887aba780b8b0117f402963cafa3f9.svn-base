@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="pm.dao.MemberDao">
+   <!--  초기 화면 -->
+  	<select id="memberlist" resultType="member" parameterType="member">
+		SELECT m.*,d.dept,d.comno, c.companyName, c.companyTel
+		FROM member06 m, dept06 d, company06 c
+		WHERE 1=1
+		and m.deptno = d.deptno(+)
+		AND d.comno = c.comno(+)
+		<if test="name!=null">
+		AND name LIKE '%'||#{name}||'%'
+		</if>
+		order by no
+  	</select>
+  	<select id="memberlist2" resultType="member" parameterType="member">
+		SELECT m.*,d.dept,d.comno, c.companyName, c.companyTel
+		FROM member06 m, dept06 d, company06 c
+		WHERE 1=1
+		and m.deptno = d.deptno(+)
+		AND d.comno = c.comno(+)
+		and id=#{id}
+		and pass=#{pass}
+		order by no
+  	</select>
+  	<!-- 상세 페이지 -->
+  	<select id = "getMemberDetail" resultType = "member" parameterType="int">
+	  	SELECT m.*,d.dept,d.comno, c.companyName, c.companyTel
+		FROM member06 m, dept06 d, company06 c
+		WHERE m.deptno = d.deptno(+)
+		AND d.comno = c.comno(+) 
+		AND m.NO = #{no}
+  	</select>
+  	<!-- 수정  -->
+  	<update id = "updateMember" parameterType="member">
+	  	UPDATE MEMBER06 
+		SET name = #{name},
+			<if test = "deptno!=null">
+				<if test = "dept!=null">
+					<if test="comno!=null">
+			deptno = (SELECT deptno FROM dept06 WHERE dept = #{dept} AND comno = 
+			(SELECT comno FROM company06 WHERE companyName=#{companyName})),
+					</if>
+				</if>
+			</if>
+			tel = #{tel},
+			auth = #{auth},
+			mrg = #{mrg}
+		WHERE no = #{no}
+  	</update>
+  	<!--  삭제 -->
+  	<delete id="deleteMember" parameterType="int">
+	  	DELETE 
+		FROM member06 
+		WHERE NO = #{no}
+  	</delete>
+  	<!-- 추가 -->
+  	  <insert id = "insertMember" parameterType="member">
+	  INSERT INTO member06 values(NO_seq.nextval,
+	  <if test = "deptno!=null">
+	  <if test = "dept !=null">
+	  <if test = "companyName !=null">
+		(SELECT deptno FROM dept06 WHERE dept = #{dept} AND comno =
+		 (SELECT comno FROM company06 WHERE companyName = #{companyName}))
+		 </if>
+	  </if>
+	  </if>
+		,#{id},#{pass},#{name},#{auth},#{tel},#{mrg})
+ 	 </insert>
+ 	 <select id="orgGroup" resultType="member" parameterType="member">
+		SELECT m.name, m.auth,(SELECT count(NO)
+		FROM member06 mm, dept06 dd, company06 cc
+		WHERE mm.deptno = dd.deptno(+)
+		AND dd.comno = cc.comno(+)
+		<if test="companyName!=null">
+		AND c.companyName =#{companyName}
+		</if>
+		) countGroup
+		FROM member06 m, dept06 d, company06 c
+		WHERE m.deptno = d.deptno(+)
+		AND d.comno = c.comno(+)
+		<if test="companyName1!=null">
+		AND c.companyName =#{companyName1}
+		</if>
+		AND m.auth = 'admin'
+ 	 </select>
+ 	 <select id="groupList" resultType="member" parameterType="member">
+		SELECT count(no) deptCount, d.dept
+		FROM member06 m, dept06 d, company06 c
+		WHERE m.deptno = d.deptno(+)
+		AND d.comno = c.comno(+)
+		<if test="companyName!=null">
+		AND companyName=#{companyName}
+		</if>
+		GROUP BY d.dept
+ 	 </select>
+ 	 
+
+ 	 
+  </mapper>
